@@ -24,24 +24,22 @@ func main() {
 		probabilidadLluvia: baseURL + "rc",
 	}
 
-	tchan := make(chan string)
-	hchan := make(chan string)
-	pchan := make(chan string)
+	respChan := make(chan string)
 
-	go getData(directory.temperatura, tchan)
-	go getData(directory.humedad, hchan)
-	go getData(directory.probabilidadLluvia, pchan)
+	go getData(directory.temperatura, respChan)
+	go getData(directory.humedad, respChan)
+	go getData(directory.probabilidadLluvia, respChan)
 
-	reporteFinal := construirReporte(tchan, hchan, pchan)
+	reporteFinal := construirReporte(respChan)
 	fmt.Println(reporteFinal)
 	elapsed := time.Since(start)
 	fmt.Println(fmt.Sprintf("Tiempo para elaborar el informe: %s", elapsed))
 }
 
-func construirReporte(tchan chan string, hchan chan string, pchan chan string) string {
-	reporteFinal := <-tchan
-	reporteFinal += <-hchan
-	reporteFinal += <-pchan
+func construirReporte(c chan string) string {
+	reporteFinal := <-c
+	reporteFinal += <-c
+	reporteFinal += <-c
 	return reporteFinal
 }
 
