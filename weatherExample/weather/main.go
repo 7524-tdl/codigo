@@ -8,7 +8,7 @@ import (
 func temperatureHandler(w http.ResponseWriter, r *http.Request) {
 	tp := temperatureProvider{}
 	temp := tp.getTemperature()
-	fmt.Fprintf(w, "Temperatura: %d \n", temp)
+	fmt.Fprintf(w, "Temperatura: %d ºC\n", temp)
 }
 
 func humidityHandler(w http.ResponseWriter, r *http.Request) {
